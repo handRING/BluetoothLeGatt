@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                          BluetoothGattCharacteristic characteristic,
                                          int status) {
             if (status == BluetoothGatt.GATT_SUCCESS) {
-                //  broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
+                //  broadcastUpdate(ACTION_DATA_AVAILABLE, characteris
                 Log.d(TAG,"Read有数据");
             }
         }
