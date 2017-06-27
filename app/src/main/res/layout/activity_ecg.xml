@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+    <include
+        android:id="@+id/layout_bar"
+        layout="@layout/activity_topstatebar" />
+    <LinearLayout
+        android:id="@+id/ecg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <!--<TextView
+            android:text="数据数量："
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textview_count"
+            android:layout_weight="0.06"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:textSize="16sp"/>
+        <TextView
+            android:text="_ _"
+            android:layout_marginLeft="10dp"
+            android:textSize="16sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/Receive_count"
+            android:layout_weight="0.06" />-->
+
+        <TextView
+            android:text="心电图绘制"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textColor="#333333"
+            android:textSize="20dp"
+            android:id="@+id/textView3"
+            android:layout_weight="0.06" />
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:text="       心脏在每个心动周期中，由起搏点、心房、心室相继兴奋，伴随着生物电的变化，通过心电描记器从体表引出多种形式的电位变化的图形（简称ECG）。"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:id="@+id/ecg_instruction" />
+
+    </LinearLayout>
+
+    <SurfaceView
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:id="@+id/SurfaceViewId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

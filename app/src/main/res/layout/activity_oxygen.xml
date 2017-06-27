@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.timesashes.chengdu.myband.MainActivity">
+    <include
+        android:id="@+id/layout_bar"
+        layout="@layout/activity_topstatebar" />
+    <TextView
+        android:layout_below="@+id/layout_bar"
+        android:id="@+id/tv_pre_heart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="血氧值"
+        android:textSize="16sp"
+        android:textColor="#333333"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"/>
+    <TextView
+        android:id="@+id/tv_count"
+        android:layout_below="@+id/tv_pre_heart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="_ _"
+        android:textColor="#333333"
+        android:textSize="40sp"/>
+    <ImageView
+        android:id="@+id/iv_face"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitStart"
+        android:src="@drawable/heart"
+        android:layout_alignBottom="@+id/tv_oxygen_normal_or_false"
+        android:layout_alignRight="@+id/tv_num"
+        android:layout_alignEnd="@+id/tv_num" />
+    <TextView
+        android:id="@+id/tv_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="%"
+        android:textSize="40sp"
+        android:layout_alignBaseline="@+id/tv_count"
+        android:layout_alignBottom="@+id/tv_count"
+        android:layout_toRightOf="@+id/tv_oxygen_normal_or_false"
+        android:layout_toEndOf="@+id/tv_oxygen_normal_or_false" />
+    <TextView
+        android:id="@+id/tv_oxygen_normal_or_false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="血氧正常"
+        android:textSize="16sp"
+        android:textColor="#cc0000"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/tv_count"
+        android:layout_marginTop="10dp"/>
+    <TextView
+        android:text="      血氧简称 SPO2H 是指血液中的氧气，人体正常含氧量为90%左右。"
+        android:textSize="18dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView5"
+        android:layout_below="@+id/tv_oxygen_normal_or_false"
+        android:padding="10dp"/>
+</RelativeLayout>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.timesashes.chengdu.myband.MainActivity"
+    android:orientation="vertical"
+    android:weightSum="1">
+    <include
+        android:id="@+id/layout_bar"
+        layout="@layout/activity_topstatebar" />
+    <RelativeLayout
+        android:id="@+id/oxygen"
+        android:layout_width="match_parent"
+        android:layout_height="140dp">
+        <TextView
+            android:id="@+id/tv_pre_heart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="血压值"
+            android:textSize="16sp"
+            android:textColor="#333333"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:id="@+id/high_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="_ _"
+            android:textColor="#333333"
+            android:textSize="40sp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="100dp"/>
+        <TextView
+            android:text="收缩压："
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:id="@+id/tv_high"
+            android:layout_alignBaseline="@id/high_count" />
+
+
+        <TextView
+            android:id="@+id/tv_low"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="210dp"
+            android:text="舒张压："
+            android:layout_alignBaseline="@id/high_count" />
+        <TextView
+            android:id="@+id/low_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="_ _"
+            android:textColor="#333333"
+            android:textSize="40sp"
+            android:layout_alignBaseline="@id/high_count"
+            android:layout_marginLeft="270dp"/>
+
+        <TextView
+            android:id="@+id/tv_pre_normal_or_false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="血压正常"
+            android:textSize="16sp"
+            android:textColor="#cc0000"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="12dp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:text="不同年龄正常血压参考值"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:id="@+id/textView3"
+        android:layout_weight="0.06" />
+
+    <ImageView
+        android:layout_width="320dp"
+        android:layout_height="303dp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:src="@drawable/pressure"
+        android:id="@+id/imageView"
+        android:layout_weight="0.44"></ImageView>
+
+</LinearLayout>

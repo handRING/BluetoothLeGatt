@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.timesashes.chengdu.myband.MainActivity">
+    <include
+        android:id="@+id/layout_bar"
+        layout="@layout/activity_topstatebar" />
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_below="@+id/layout_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/tv_pre_heart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="心率值"
+                android:textSize="16sp"
+                android:textColor="#333333"
+                android:layout_marginTop="20dp"
+                android:layout_centerHorizontal="true"/>
+            <TextView
+                android:id="@+id/heart_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="35dp"
+                android:text="_ _"
+                android:textColor="#333333"
+                android:textSize="40sp"/>
+            <TextView
+                android:id="@+id/tv_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:text="次/分"
+                android:layout_below="@+id/tv_pre_heart"
+                android:layout_toRightOf="@+id/heart_count" />
+            <TextView
+                android:id="@+id/tv_heart_normal_or_false"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="心率正常"
+                android:textSize="16sp"
+                android:textColor="#cc0000"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/heart_count"
+                android:layout_marginTop="10dp"/>
+            <ImageView
+                android:id="@+id/iv_face"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitStart"
+                android:src="@drawable/heart"
+                android:layout_alignTop="@+id/tv_heart_normal_or_false"
+                android:layout_alignRight="@+id/tv_num"
+                android:layout_alignEnd="@+id/tv_num" />
+
+            <TextView
+                android:text="      心率是指正常人安静状态下每分钟心跳的次数，也叫安静心率，一般为60～100次/分，可因年龄、性别或其他生理因素产生个体差异。一般来说，年龄越小，心率越快，老年人心跳比年轻人慢，女性的心率比同龄男性快，这些都是正常的生理现象。安静状态下，成人正常心率为60～100次/分钟，理想心率应为55～70次/分钟（运动员的心率较普通成人偏慢，一般为50次/分钟左右）。"
+                android:textSize="18dp"
+                android:layout_below="@+id/iv_face"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:id="@+id/textView4" />
+        </RelativeLayout>
+    </ScrollView>
+
+
+</RelativeLayout>
