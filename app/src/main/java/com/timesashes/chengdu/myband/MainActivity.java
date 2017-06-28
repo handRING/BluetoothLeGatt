@@ -26,7 +26,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -65,7 +67,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int dataInt_ECG,dataInt_Heart,dataInt_Oxygen,dataInt_Pre_high,dataInt_Pre_low;
     private byte EE = (byte) 0xEE; // 开始位
     private byte FF = (byte) 0xFF; // 结束位
-    private byte[] sendByte={EE,0x0F,0x37,0x00,0x52,0x00,0x62,0x00,0x73,0x00,0x46,FF};
+    private byte[] sendByte;
+    Queue<Byte> queue = new LinkedList<Byte>();
     private BluetoothGattCallback mGattCallback=new BluetoothGattCallback() {
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
@@ -130,9 +133,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (data != null && data.length > 0) {
                 final StringBuilder stringBuilder = new StringBuilder(data.length);
                 for(byte byteChar : data)
+                {
                     stringBuilder.append(String.format("%02X ", byteChar));
+                    queue.offer(byteChar);
+                }
                 Log.d(TAG,"数据转字符串为："+stringBuilder.toString());
+                datahandle();
             }
+
 
 /*
            characteristic.setValue(sendByte);
@@ -168,6 +176,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }*/
 
         }
+
+        public void datahandle(){
+            if(queue.size()==20)
+            {
+                int i=0;
+                sendByte[0]=EE;
+                sendByte[21]=FF;
+                do{
+                    i++;
+                    sendByte[i]=queue.poll();
+                }while (queue!=null);
+            }
+            final StringBuilder stringBuilder = new StringBuilder(sendByte.length);
+            for(byte byteChar : sendByte)
+            {
+                stringBuilder.append(String.format("%02X ", byteChar));
+                queue.offer(byteChar);
+            }
+        }
+
         @Override
         public void onCharacteristicWrite (BluetoothGatt gatt, BluetoothGattCharacteristic
                 characteristic, int status){
