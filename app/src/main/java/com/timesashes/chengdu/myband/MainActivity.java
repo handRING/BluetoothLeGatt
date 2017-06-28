@@ -67,7 +67,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int dataInt_ECG,dataInt_Heart,dataInt_Oxygen,dataInt_Pre_high,dataInt_Pre_low;
     private byte EE = (byte) 0xEE; // 开始位
     private byte FF = (byte) 0xFF; // 结束位
-    private byte[] sendByte;
+    private byte[] data=new byte[4];
+    private byte[] sendByte={EE};
+
     Queue<Byte> queue = new LinkedList<Byte>();
     private BluetoothGattCallback mGattCallback=new BluetoothGattCallback() {
         @Override
@@ -129,24 +131,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             if(characteristic.getValue()!=null)
                 Log.d(TAG,"可以得到数据");
-            final byte[] data=characteristic.getValue();
-            if (data != null && data.length > 0) {
-                final StringBuilder stringBuilder = new StringBuilder(data.length);
-                for(byte byteChar : data)
+            final byte[] datar=characteristic.getValue();
+            if (datar != null && datar.length > 0) {
+                final StringBuilder stringBuilder = new StringBuilder(datar.length);
+                for(byte byteChar : datar)
                 {
                     stringBuilder.append(String.format("%02X ", byteChar));
                     queue.offer(byteChar);
                 }
                 Log.d(TAG,"数据转字符串为："+stringBuilder.toString());
-                datahandle();
+                Log.d(TAG,"长度："+queue.size());
+            }
+            while(queue.size()>=4d)
+            {
+
+                for (int i=0;i<4;i++)
+                {
+                    data[i]=queue.poll();
+                }
+                final StringBuilder stringBuilder1 = new StringBuilder(data.length);
+                for(byte byteChar : data)
+                {
+                    stringBuilder1.append(String.format("%02X ", byteChar));
+                }
+                Log.d(TAG,"待传数据为："+stringBuilder1.toString());
+                if(data[0]==EE&&data[3]==FF)
+                {
+                    // 转换为整数 ECG
+                    dataInt_ECG = (  (0x0FF &  data[1]  ) << 8   )
+                            + (  0x0FF & (data[2]<<1) );
+                    dataInt_ECG >>=1;
+                    SendBroadCastOfData() ;
+                    data[0]=(byte)0xFE;
+                    data[3]=(byte)0xFE;
+                }
+
             }
 
 
-/*
+
            characteristic.setValue(sendByte);
            writeCharacteristic(characteristic);
 
-            if(data[0]==EE&&data[3]==FF){
+/*
 
                 // 转换为整数 ECG
                 dataInt_ECG = (  (0x0FF &  data[1]  ) << 8   )
@@ -173,28 +200,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 dataInt_Pre_low >>=1;
 
                 SendBroadCastOfData() ;
-            }*/
+            */
 
         }
 
-        public void datahandle(){
-            if(queue.size()==20)
-            {
-                int i=0;
-                sendByte[0]=EE;
-                sendByte[21]=FF;
-                do{
-                    i++;
-                    sendByte[i]=queue.poll();
-                }while (queue!=null);
-            }
-            final StringBuilder stringBuilder = new StringBuilder(sendByte.length);
-            for(byte byteChar : sendByte)
-            {
-                stringBuilder.append(String.format("%02X ", byteChar));
-                queue.offer(byteChar);
-            }
-        }
+
 
         @Override
         public void onCharacteristicWrite (BluetoothGatt gatt, BluetoothGattCharacteristic
