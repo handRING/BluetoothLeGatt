@@ -26,6 +26,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -71,6 +72,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private byte[] sendByte={EE};
 
     Queue<Byte> queue = new LinkedList<Byte>();
+
+    private BLEcomunication mBLEcomunicaiton=new BLEcomunication();
     private BluetoothGattCallback mGattCallback=new BluetoothGattCallback() {
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
@@ -438,9 +441,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             Log.i(TAG, "获取远程设备成功");
                             //开启连接线程
                             if(CONNECT_STATE!=CONNECT_SUCCESS){
-                                mBluetoothGatt = device.connectGatt(context,false,mGattCallback);
-                                MainActivity.mHandler.obtainMessage(MainActivity.CONNECTING).sendToTarget();
+                              /*  mBluetoothGatt = device.connectGatt(context,false,mGattCallback);
+                                MainActivity.mHandler.obtainMessage(MainActivity.CONNECTING).sendToTarget();*/
 
+                                mBLEcomunicaiton.connectBLE(device);
                             }
                         }
 
