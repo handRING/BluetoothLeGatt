@@ -125,7 +125,8 @@
         android:layout_marginLeft="25dp"
         android:src="@mipmap/disconnect"
         android:layout_alignTop="@+id/imageView5"
-        android:layout_toRightOf="@+id/tv_center"/>
+        android:layout_toRightOf="@+id/tv_center"
+        android:id="@+id/imageView6" />
     <LinearLayout
         android:layout_marginBottom="20dp"
         android:layout_alignParentBottom="true"
@@ -174,4 +175,23 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"/>
     </LinearLayout>
+
+    <Button
+        android:id="@+id/readbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="42dp"
+        android:text="读"
+        android:layout_below="@+id/imageView4"
+        android:layout_toStartOf="@+id/TextView01" />
+
+    <Button
+        android:id="@+id/writebutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="写"
+        android:layout_alignBaseline="@+id/readbutton"
+        android:layout_alignBottom="@+id/readbutton"
+        android:layout_toEndOf="@+id/TextView01" />
+
 </RelativeLayout>

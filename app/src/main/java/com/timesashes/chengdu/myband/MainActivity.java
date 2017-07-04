@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Context context;
     public ImageView bluetoothOpen,bluetoothClose,connection,disConnection;
     public TextView Connect_State_TextView;
-    Button btn_one, btn_two, btn_three,btn_four;
+    Button btn_one, btn_two, btn_three,btn_four,readbutton,writebutton;
 
     private RelativeLayout back;
     private TextView title;
@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private byte FF = (byte) 0xFF; // 结束位
     private byte[] data=new byte[4];
     private byte[] sendByte={EE};
+    private BluetoothGattCharacteristic gattCharacteristic;
 
     Queue<Byte> queue = new LinkedList<Byte>();
     private BluetoothGattCallback mGattCallback=new BluetoothGattCallback() {
@@ -94,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 BluetoothGattService mBluetoothGattService=mCustomService.get(0);
 
                 List<BluetoothGattCharacteristic> gattCharacteristicsList=mBluetoothGattService.getCharacteristics();
-                BluetoothGattCharacteristic gattCharacteristic = gattCharacteristicsList.get(0);
+                gattCharacteristic = gattCharacteristicsList.get(0);
                 if(gattCharacteristic!=null)
                     Log.d(TAG,"Characteristic不为空");
 
@@ -128,51 +129,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                             BluetoothGattCharacteristic characteristic) {
             // broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
             Log.d(TAG,"the given characteristic has changed");
-
-            if(characteristic.getValue()!=null)
-                Log.d(TAG,"可以得到数据");
-            final byte[] datar=characteristic.getValue();
-            if (datar != null && datar.length > 0) {
-                final StringBuilder stringBuilder = new StringBuilder(datar.length);
-                for(byte byteChar : datar)
-                {
-                    stringBuilder.append(String.format("%02X ", byteChar));
-                    queue.offer(byteChar);
-                }
-                Log.d(TAG,"数据转字符串为："+stringBuilder.toString());
-                Log.d(TAG,"长度："+queue.size());
-            }
-            while(queue.size()>=4d)
-            {
-
-                for (int i=0;i<4;i++)
-                {
-                    data[i]=queue.poll();
-                }
-                final StringBuilder stringBuilder1 = new StringBuilder(data.length);
-                for(byte byteChar : data)
-                {
-                    stringBuilder1.append(String.format("%02X ", byteChar));
-                }
-                Log.d(TAG,"待传数据为："+stringBuilder1.toString());
-                if(data[0]==EE&&data[3]==FF)
-                {
-                    // 转换为整数 ECG
-                    dataInt_ECG = (  (0x0FF &  data[1]  ) << 8   )
-                            + (  0x0FF & (data[2]<<1) );
-                    dataInt_ECG >>=1;
-                    SendBroadCastOfData() ;
-                    data[0]=(byte)0xFE;
-                    data[3]=(byte)0xFE;
-                }
-
-            }
-
-
-
-           characteristic.setValue(sendByte);
-           writeCharacteristic(characteristic);
-
 /*
 
                 // 转换为整数 ECG
@@ -292,6 +248,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_three = (Button) findViewById(R.id.btn_three);
         btn_four=(Button)findViewById(R.id.btn_four);
 
+        readbutton=(Button)findViewById(R.id.readbutton);
+        writebutton=(Button)findViewById(R.id.writebutton);
+
         back = (RelativeLayout) findViewById(R.id.rel_back);
         title = (TextView) findViewById(R.id.tv_tbb_title);
         back.setVisibility(View.INVISIBLE);
@@ -358,6 +317,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bluetoothClose.setOnClickListener(this);
         connection.setOnClickListener(this);
         disConnection.setOnClickListener(this);
+
+        readbutton.setOnClickListener(this);
+        writebutton.setOnClickListener(this);
     }
 
     @Override
@@ -477,6 +439,58 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Toast.makeText(MainActivity.this, "按键：断开", Toast.LENGTH_SHORT).show();
 
                 break;
+
+            case R.id.readbutton:
+                mBluetoothGatt.setCharacteristicNotification(gattCharacteristic,true);
+                mBluetoothGatt.readCharacteristic(gattCharacteristic);
+                break;
+
+            case R.id.writebutton:
+                mBluetoothGatt.setCharacteristicNotification(gattCharacteristic,true);
+                //将指令放置进特征中
+                gattCharacteristic.setValue(new byte[] {0x7e, 0x14, 0x00, 0x00,0x00,(byte) 0xaa});
+                //设置回复形式
+                gattCharacteristic.setWriteType(BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE);
+                //开始写数据
+                mBluetoothGatt.writeCharacteristic(gattCharacteristic);
+                if(gattCharacteristic.getValue()!=null)
+                    Log.d(TAG,"可以得到数据");
+                final byte[] datar=gattCharacteristic.getValue();
+                if (datar != null && datar.length > 0) {
+                    final StringBuilder stringBuilder = new StringBuilder(datar.length);
+                    for(byte byteChar : datar)
+                    {
+                        stringBuilder.append(String.format("%02X ", byteChar));
+                        queue.offer(byteChar);
+                    }
+                    Log.d(TAG,"数据转字符串为："+stringBuilder.toString());
+                    Log.d(TAG,"长度："+queue.size());
+                }
+                while(queue.size()>=4d)
+                {
+
+                    for (int i=0;i<4;i++)
+                    {
+                        data[i]=queue.poll();
+                    }
+                    final StringBuilder stringBuilder1 = new StringBuilder(data.length);
+                    for(byte byteChar : data)
+                    {
+                        stringBuilder1.append(String.format("%02X ", byteChar));
+                    }
+                    Log.d(TAG,"待传数据为："+stringBuilder1.toString());
+                    if(data[0]==EE&&data[3]==FF)
+                    {
+                        // 转换为整数 ECG
+                        dataInt_ECG = (  (0x0FF &  data[1]  ) << 8   )
+                                + (  0x0FF & (data[2]<<1) );
+                        dataInt_ECG >>=1;
+                        SendBroadCastOfData() ;
+                        data[0]=(byte)0xFE;
+                        data[3]=(byte)0xFE;
+                    }
+
+                }
         }
     }
 
